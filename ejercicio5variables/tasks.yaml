@@ -1,0 +1,43 @@
+---
+- name: Instalación de Apache
+  hosts: databases
+  #remote_user: root
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+    - name: Instalando el paquete Apache
+      package:
+        name: httpd
+        state: latest
+        update_cache: yes
+    - name: Servicio Apache arrancado
+      service: #"name=nginx state=started enabled=true"
+        name: httpd
+        state: started
+        enabled: true
+    - name: Habilitar Firewalld
+      firewalld:
+        state: enabled
+    - name: abrir el firewall para 22
+      firewalld:
+        service: ssh
+        permanent: yes
+        state: enabled
+    - name: abrir el firewall para 80
+      firewalld:
+        service: http
+        permanent: yes
+        state: enabled
+    - name: abrir el firewall para 443
+      firewalld:
+        service: https
+        permanent: yes
+        state: enabled
+    - name: Copia el fichero index.html
+      copy:
+        src: index.html
+        dest: /var/www/html/index.html
+        owner: www-data
+        group: www-data
+        mode: '0644'
+...
