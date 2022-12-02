@@ -1,0 +1,13 @@
+[ubuntu]
+u1
+u2
+
+[webservers]
+u1
+u2
+[databasesUbuntu]
+u3
+[databases]
+u4
+[docker]
+docker
